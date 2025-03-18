@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { parseCSV, processCardNames, generateJsonFile } from '@/utils/fileUtils';
 import { useIntersectionObserver } from '@/utils/animations';
-import { Upload, Download } from 'lucide-react';
+import { FileUpload, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
 
@@ -135,7 +136,7 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
               disabled={isProcessing}
               className="w-full h-16 border-dashed border-2 flex flex-col gap-2 items-center justify-center"
             >
-              <Upload size={20} />
+              <FileUpload size={20} />
               <span>{fileName || "Choose CSV file"}</span>
             </Button>
           </div>
