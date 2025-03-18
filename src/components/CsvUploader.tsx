@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { parseCSV, processCardNames, generateJsonFile } from '@/utils/fileUtils';
 import { useIntersectionObserver } from '@/utils/animations';
-import { FileUpload, Download } from 'lucide-react';
+import { Upload, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
 
@@ -27,7 +26,6 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
     const file = e.target.files?.[0];
     if (!file) return;
     
-    // Check if it's a CSV file
     if (!file.name.endsWith('.csv') && !file.type.includes('csv')) {
       toast({
         title: "Invalid file format",
@@ -39,7 +37,6 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
     
     setFileName(file.name);
     
-    // Read the file
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
@@ -55,7 +52,6 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
           return;
         }
         
-        // Confirm with the user if there are many cards
         if (cardNames.length > 20) {
           const confirm = window.confirm(
             `You're about to process ${cardNames.length} cards. This might take some time and could result in API rate limits. Continue?`
@@ -66,11 +62,9 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
           }
         }
         
-        // Start processing
         setIsProcessing(true);
         setProcessingProgress(0);
         
-        // Monitor progress
         const updateInterval = setInterval(() => {
           setProcessingProgress(prev => {
             const newValue = prev + (100 / cardNames.length / 10);
@@ -78,13 +72,11 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
           });
         }, 100);
         
-        // Process the card names
         const results = await processCardNames(cardNames);
         
         clearInterval(updateInterval);
         setProcessingProgress(100);
         
-        // Generate the JSON file
         generateJsonFile(results);
         
       } catch (error) {
@@ -96,7 +88,6 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
         });
       } finally {
         setIsProcessing(false);
-        // Reset the file input
         e.target.value = '';
       }
     };
@@ -136,7 +127,7 @@ const CsvUploader: React.FC<CsvUploaderProps> = ({ className }) => {
               disabled={isProcessing}
               className="w-full h-16 border-dashed border-2 flex flex-col gap-2 items-center justify-center"
             >
-              <FileUpload size={20} />
+              <Upload size={20} />
               <span>{fileName || "Choose CSV file"}</span>
             </Button>
           </div>
