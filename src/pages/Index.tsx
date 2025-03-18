@@ -4,6 +4,7 @@ import { CardData } from '@/utils/api';
 import Header from '@/components/Header';
 import CardSearch from '@/components/CardSearch';
 import CardResult from '@/components/CardResult';
+import CsvUploader from '@/components/CsvUploader';
 import { useIntersectionObserver } from '@/utils/animations';
 import { cn } from '@/lib/utils';
 
@@ -49,7 +50,10 @@ const Index = () => {
         </div>
         
         {/* Search component */}
-        <CardSearch onResults={handleSearchResults} className="mb-16" />
+        <CardSearch onResults={handleSearchResults} className="mb-8" />
+        
+        {/* CSV Uploader */}
+        <CsvUploader className="mb-16" />
         
         {/* Results */}
         {hasSearched && (
@@ -88,7 +92,7 @@ const Index = () => {
           <div className="text-center py-16 glass-card rounded-2xl mt-12 animate-fade-in">
             <h2 className="text-2xl font-display font-medium mb-2">Get started</h2>
             <p className="text-muted-foreground">
-              Search for a card above to see pricing information
+              Search for a card above or upload a CSV file for batch processing
             </p>
           </div>
         )}
